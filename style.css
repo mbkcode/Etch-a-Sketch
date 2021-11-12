@@ -1,0 +1,18 @@
+body {
+	justify-content: center;
+	align-items: center;
+}
+
+#container {
+	padding: 0 2vw;
+	display: flex;
+}
+
+.grid {
+	display: flex;
+	height: 70rem;
+	width: 70rem;
+	flex-flow: row wrap;
+	justify-content: space-around;
+	border: solid black 1px;
+}
