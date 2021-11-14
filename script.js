@@ -1,31 +1,55 @@
 //query Selectors
-const container = document.querySelector(".container");
 const grid = document.querySelector(".grid");
 const resetBtn = document.querySelector(".resetBtn");
-
-// Calculate cell width
-let cellWidth = 40 / 16 + "rem";
-// Calculate cell height to fill board
-let cellHeight = 40 / 16 + "rem";
+const box = document.getElementsByClassName("box");
+let userInput = 16;
 
 //create divs
-function createDiv(col, row) {
-	for (let i = 0; i < col * row; i++) {
+function createDiv(col = 16) {
+	for (let i = 0; i < col * col; i++) {
 		const div = document.createElement("div");
 		div.style.border = "1px solid black";
 		grid.style.gridTemplateColumns = `repeat(${col}, 1fr)`;
-		grid.style.gridTemplateRows = `repeat(${row}, 1fr)`;
-		grid.appendChild(div).classList.add("box");
+		grid.style.gridTemplateRows = `repeat(${col}, 1fr)`;
+		div.classList.add("box");
+		grid.appendChild(div);
 	}
 }
-createDiv(16, 16);
+
+//coloring the grid
+function colorGrid() {
+	this.style.backgroundColor = "#000000";
+}
+
 // Reset the grid
-function eraseAllColor() {
-	var gridPixels = grid.querySelectorAll("div");
-	gridPixels.forEach(
-		(gridPixel) => (gridPixel.style.backgroundColor = "#ffffff")
+function resetGrid() {
+	//clear the grid
+	while (grid.firstChild) {
+		grid.removeChild(grid.lastChild);
+	}
+
+	//new grid size from user
+	userInput = prompt("Enter the number of rows(Between 1 to 100)");
+	if (!(userInput > 0 && userInput <= 100)) {
+		alert("Invalid Number");
+		resetGrid();
+	} else {
+		createDiv(userInput);
+		mouseHover();
+	}
+}
+
+// Mouse hover function
+function mouseHover() {
+	let squares = grid.querySelectorAll("div");
+	squares.forEach((gridPixel) =>
+		gridPixel.addEventListener("mouseover", colorGrid)
 	);
 }
 
 //Events
-resetBtn.addEventListener("click", eraseAllColor);
+resetBtn.addEventListener("click", resetGrid);
+
+//Default calling
+createDiv();
+mouseHover();
